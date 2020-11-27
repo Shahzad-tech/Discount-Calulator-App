@@ -65,7 +65,7 @@ export default function App () {
       />
       <Text style = {{marginTop:"5%"}}>Enter the discount</Text>
       <TextInput
-      style={{ width: "45%" , marginTop:"2%",borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center", marginleft:"50%"}}
+      style={{ width: "45%" , marginTop:"2%",borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center",}}
       placeholder="Discount Percentage"
       keyboardType={"number-pad"}
       onChangeText={(text) => UpdateDiscountPercentage(text)  }
