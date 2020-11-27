@@ -32,6 +32,7 @@ export default function App () {
   const[DiscountPercentage, UpdateDiscountPercentage] = useState(0)
   const[SaveMoney, updateSaveMoney] = useState(0)
   const[finalPrice, updateFinalPrince] = useState(0)
+  const[saveData, updateSaveData] = useState(0)
   const inputValidations=(text, meth)=>{
     let num = "0123456789"
     let txt = ""
@@ -67,6 +68,25 @@ export default function App () {
     updateSaveMoney(x)
     updateFinalPrince(y) 
   }
+  const clearAttr=()=>{
+    UpdateOrginalPrice(0);
+    UpdateDiscountPercentage(0);
+    updateSaveMoney(0);
+    updateFinalPrince(0);
+  }
+  const saveDdata=()=>{
+    updateSaveData(saveData+"\nOriginal Price: "+OrginalPrice +" Discount Percent: "+DiscountPercentage+" Saved: "+SaveMoney+" Final: "+finalPrice)
+    clearAttr()
+  }
+  const Viewhis=()=>{
+    alert(saveData)
+    return (
+      
+      <View>
+        {saveData}
+      </View>
+    )
+  }
   const display=()=> {
     if(OrginalPrice!=0){
       // alert(OrginalPrice)
@@ -84,7 +104,7 @@ export default function App () {
       <View style = {{marginTop:"1%",alignItems:"center", backgroundColor:"red", height:"15%", justifyContent:"center"}}>
         <Text style = {{color:"white", fontWeight:"bold"}}>Discount Calculator App</Text>
       </View>
-      <View style ={{marginTop:"5%", alignItems:"center"}}>
+      <View style ={{marginTop:"25%", alignItems:"center"}}>
 
       <Text  style = {{color:"black", fontWeight:"bold"}} >Enter Original Price</Text>
       <TextInput
@@ -109,11 +129,21 @@ export default function App () {
       value = {DiscountPercentage}
        textAlign={'center'}
       />
-      <View style={{marginTop:"5%"}}>
+      <View style={{marginTop:"8%"}}>
        {display()}
        </View>
       </View>
-
+      <View style={{width:"100%", marginTop:"8%", flexDirection:"row"}}>
+        <View style={{width:"32%",marginLeft:"1%"}}>
+        <Button title="Clear" onPress={()=>{clearAttr()}}>Clear</Button>
+        </View>
+        <View style={{width:"32%", marginLeft:"1%"}}>
+        <Button title="Save" onPress={()=>{saveDdata()}}>Save</Button>
+        </View>
+        <View style={{width:"32%",marginLeft:"1%"}}>
+        <Button title="View History" onPress={()=>Viewhis()}>View History</Button>
+        </View>
+      </View>
       </View>
   
   );
