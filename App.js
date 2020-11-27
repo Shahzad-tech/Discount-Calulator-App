@@ -31,7 +31,7 @@ export default function App () {
   const[OrginalPrice, UpdateOrginalPrice] = useState(0)
   const[DiscountPercentage, UpdateDiscountPercentage] = useState(0)
   const[SaveMoney, updateSaveMoney] = useState(0)
-
+  const[finalPrice, updateFinalPrince] = useState(0)
   const inputValidations=(text, meth)=>{
     let num = "0123456789"
     let txt = ""
@@ -62,17 +62,18 @@ export default function App () {
   }
 
   const calculateDiscount =()=>{
-    var x = (OrginalPrice) * (DiscountPercentage/100)
+    var x = parseFloat((OrginalPrice) * (DiscountPercentage/100)).toFixed(2)
     var y = parseFloat(OrginalPrice - x).toFixed(2)
-    updateSaveMoney(y) 
+    updateSaveMoney(x)
+    updateFinalPrince(y) 
   }
   const display=()=> {
     if(OrginalPrice!=0){
       // alert(OrginalPrice)
       return(
         <View >
-        <Text  style = {{color:"black", fontWeight:"bold"}}>You Save: {SaveMoney} </Text>
-        <Text  style = {{color:"black", fontWeight:"bold", marginTop:"2%"}}>Final Price: {OrginalPrice}</Text>
+        <Text  style = {{color:"black", fontWeight:"bold"}}>You Save: {SaveMoney}</Text>
+        <Text  style = {{color:"black", fontWeight:"bold", marginTop:"2%"}}>Final Price: {finalPrice}</Text>
         </View>
       )
     }
@@ -98,6 +99,7 @@ export default function App () {
       // editable = {false}
        textAlign={'center'}
       />
+
       <Text style = {{marginTop:"5%", fontWeight:"bold"}}>Enter the Discount</Text>
       <TextInput
       style={{ width: "45%" , marginTop:"2%",borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center",}}
