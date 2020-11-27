@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,7 +14,8 @@ import {
   View,
   Text,
   StatusBar,
-  TextInput
+  TextInput,
+  Button, 
 } from 'react-native';
 
 import {
@@ -27,30 +28,56 @@ import {
 
 
 export default function App () {
+  const[OrginalPrice, UpdateOrginalPrice] = useState(0)
+  const[DiscountPercentage, UpdateDiscountPercentage] = useState(0)
+
+  const writeOriginalPrice=(e)=>{
+    alert(e)
+  }
+  const display=()=> {
+    if(OrginalPrice!=0){
+      alert(OrginalPrice)
+      return(
+        <View style={{flexDirection:"row"}}>
+        <Button title ="You Save">You Save</Button>
+        <Button title ="Final Price">Final Price</Button>
+        </View>
+      )
+    }
+  }
 
   return (
     <View>
-      <View style ={{marginTop:"5%"}}>
+      <View style ={{marginTop:"5%", alignItems:"center"}}>
+
+      <Text>Enter Original Price</Text>
       <TextInput
-      style={{ width: "100%" , borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center", marginleft:"50%"}}
+      style={{ width: "45%" ,marginTop:"2%", borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center", marginleft:"50%"}}
       placeholder="Original Price"
+      keyboardType={"number-pad"}
+      // onKeyPress={(e)=>{writeOriginalPrice(e.nativeEvent.key)}}
+      onChangeText={(text) => UpdateOrginalPrice(text)  }
+      // onKeyPress={(e)=>alert(e.nativeEvent.key)}
+      // onKeyPress={writeOriginalPrice(value)}
       // value = {this.state.number}
-      editable = {false}
+      // editable = {false}
        textAlign={'center'}
       />
-      </View>
-      <View>
+      <Text style = {{marginTop:"5%"}}>Enter the discount</Text>
       <TextInput
-      style={{ width: "100%" , borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center", marginleft:"50%"}}
+      style={{ width: "45%" , marginTop:"2%",borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center", marginleft:"50%"}}
       placeholder="Discount Percentage"
+      keyboardType={"number-pad"}
+      onChangeText={(text) => UpdateDiscountPercentage(text)  }
       // value = {this.state.number}
-      editable = {false}
+      // editable = {false}
        textAlign={'center'}
       />
+      <View style={{marginTop:"5%"}}>
+       {display()}
+       </View>
       </View>
-      {/* <Text>
-        Game
-      </Text> */}
+
       </View>
   
   );
