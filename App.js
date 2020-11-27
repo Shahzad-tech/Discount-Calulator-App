@@ -30,17 +30,49 @@ import {
 export default function App () {
   const[OrginalPrice, UpdateOrginalPrice] = useState(0)
   const[DiscountPercentage, UpdateDiscountPercentage] = useState(0)
+  const[SaveMoney, updateSaveMoney] = useState(0)
 
-  const writeOriginalPrice=(e)=>{
-    alert(e)
+  const inputValidations=(text, meth)=>{
+    let num = "0123456789"
+    let txt = ""
+    for (var i=0; i< num.length; i++){
+      if(meth=="Discount"){
+        if(text==100){
+          txt = text
+        }
+        else if(num.indexOf(text[i])>-1){
+           if(txt.length<2 || txt==""){
+              txt = txt+text[i]
+         }
+      }
+      }
+      else if(meth=="original_num"){
+      if(num.indexOf(text[i])>-1){
+        txt = txt+text[i]
+      }
+    }
+    }
+    if(meth=="original_num"){
+    UpdateOrginalPrice(txt)}
+    else if(meth=="Discount"){
+    UpdateDiscountPercentage(txt);
+    calculateDiscount()
+    }
+   
+  }
+
+  const calculateDiscount =()=>{
+    var x = (OrginalPrice) * (DiscountPercentage/100)
+    var y = parseFloat(OrginalPrice - x).toFixed(2)
+    updateSaveMoney(y) 
   }
   const display=()=> {
     if(OrginalPrice!=0){
-      alert(OrginalPrice)
+      // alert(OrginalPrice)
       return(
-        <View style={{flexDirection:"row"}}>
-        <Button title ="You Save">You Save</Button>
-        <Button title ="Final Price">Final Price</Button>
+        <View >
+        <Text  style = {{color:"black", fontWeight:"bold"}}>You Save: {SaveMoney} </Text>
+        <Text  style = {{color:"black", fontWeight:"bold", marginTop:"2%"}}>Final Price: {OrginalPrice}</Text>
         </View>
       )
     }
@@ -48,29 +80,31 @@ export default function App () {
 
   return (
     <View>
+      <View style = {{marginTop:"1%",alignItems:"center", backgroundColor:"red", height:"15%", justifyContent:"center"}}>
+        <Text style = {{color:"white", fontWeight:"bold"}}>Discount Calculator App</Text>
+      </View>
       <View style ={{marginTop:"5%", alignItems:"center"}}>
 
-      <Text>Enter Original Price</Text>
+      <Text  style = {{color:"black", fontWeight:"bold"}} >Enter Original Price</Text>
       <TextInput
-      style={{ width: "45%" ,marginTop:"2%", borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center", marginleft:"50%"}}
+      style={{ width: "45%" ,marginTop:"2%", borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center"}}
       placeholder="Original Price"
       keyboardType={"number-pad"}
       // onKeyPress={(e)=>{writeOriginalPrice(e.nativeEvent.key)}}
-      onChangeText={(text) => UpdateOrginalPrice(text)  }
+      onChangeText={(text) => {inputValidations(text,"original_num")}}
       // onKeyPress={(e)=>alert(e.nativeEvent.key)}
       // onKeyPress={writeOriginalPrice(value)}
-      // value = {this.state.number}
+      value = {OrginalPrice}
       // editable = {false}
        textAlign={'center'}
       />
-      <Text style = {{marginTop:"5%"}}>Enter the discount</Text>
+      <Text style = {{marginTop:"5%", fontWeight:"bold"}}>Enter the Discount</Text>
       <TextInput
       style={{ width: "45%" , marginTop:"2%",borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center",}}
       placeholder="Discount Percentage"
       keyboardType={"number-pad"}
-      onChangeText={(text) => UpdateDiscountPercentage(text)  }
-      // value = {this.state.number}
-      // editable = {false}
+      onChangeText={(text) => {inputValidations(text,"Discount");}}
+      value = {DiscountPercentage}
        textAlign={'center'}
       />
       <View style={{marginTop:"5%"}}>
