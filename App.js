@@ -16,6 +16,8 @@ import {
   StatusBar,
   TextInput,
   Button, 
+  Modal,
+  TouchableHighlight,
 } from 'react-native';
 
 import {
@@ -32,7 +34,8 @@ export default function App () {
   const[DiscountPercentage, UpdateDiscountPercentage] = useState(0)
   const[SaveMoney, updateSaveMoney] = useState(0)
   const[finalPrice, updateFinalPrince] = useState(0)
-  const[saveData, updateSaveData] = useState(0)
+  const[saveData, updateSaveData] = useState("")
+  const[modelVisibile, setmodelVisibile] = useState(false)
   const inputValidations=(text, meth)=>{
     let num = "0123456789"
     let txt = ""
@@ -75,16 +78,32 @@ export default function App () {
     updateFinalPrince(0);
   }
   const saveDdata=()=>{
-    updateSaveData(saveData+"\nOriginal Price: "+OrginalPrice +" Discount Percent: "+DiscountPercentage+" Saved: "+SaveMoney+" Final: "+finalPrice)
+    updateSaveData(saveData+"\nOriginal: "+OrginalPrice +" Discount: "+DiscountPercentage+"% Final: "+finalPrice)
     clearAttr()
   }
   const Viewhis=()=>{
-    alert(saveData)
+    // alert(saveData)
     return (
-      
       <View>
-        {saveData}
-      </View>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modelVisibile}
+        >
+          <View>
+            <View>
+              <Text>Hello World</Text>
+              <TouchableHighlight onPress={()=>{setmodelVisibile(!modelVisibile)}}>
+              <Text>Hide Modal</Text>
+              </TouchableHighlight>  
+              </View>
+            </View>
+          </Modal>
+          <TouchableHighlight onPress={()=>{setmodelVisibile(true)}}>
+            <Text>Show Modal</Text>
+          </TouchableHighlight>
+        </View>
+         
     )
   }
   const display=()=> {
@@ -141,50 +160,67 @@ export default function App () {
         <Button title="Save" onPress={()=>{saveDdata()}}>Save</Button>
         </View>
         <View style={{width:"32%",marginLeft:"1%"}}>
-        <Button title="View History" onPress={()=>Viewhis()}>View History</Button>
+        <Button style={styles.textStyle} title="View History" onPress={()=>setmodelVisibile(true)}>View History</Button>
         </View>
       </View>
+      <View style={styles.centeredView}>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modelVisibile}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>{saveData}</Text>
+              <TouchableHighlight style={{ ...styles.openButton, backgroundColor: "#2196F3" }} onPress={()=>{setmodelVisibile(!modelVisibile)}}>
+              <Text style={styles.textStyle}>Hide History</Text>
+              </TouchableHighlight>  
+              </View>
+            </View>
+          </Modal>
+        </View>
+      
+
       </View>
   
   );
 };
 
 const styles = StyleSheet.create({
-  // scrollView: {
-  //   backgroundColor: Colors.lighter,
-  // },
-  // engine: {
-  //   position: 'absolute',
-  //   right: 0,
-  // },
-  // body: {
-  //   backgroundColor: Colors.white,
-  // },
-  // sectionContainer: {
-  //   marginTop: 32,
-  //   paddingHorizontal: 24,
-  // },
-  // sectionTitle: {
-  //   fontSize: 24,
-  //   fontWeight: '600',
-  //   color: Colors.black,
-  // },
-  // sectionDescription: {
-  //   marginTop: 8,
-  //   fontSize: 18,
-  //   fontWeight: '400',
-  //   color: Colors.dark,
-  // },
-  // highlight: {
-  //   fontWeight: '700',
-  // },
-  // footer: {
-  //   color: Colors.dark,
-  //   fontSize: 12,
-  //   fontWeight: '600',
-  //   padding: 4,
-  //   paddingRight: 12,
-  //   textAlign: 'right',
-  // },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });
-
